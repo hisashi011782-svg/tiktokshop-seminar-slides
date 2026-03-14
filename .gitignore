@@ -1,1 +1,6 @@
 .vercel
+*.png
+*.bak
+.playwright-mcp/
+.appgenius_temp/
+mockups/
