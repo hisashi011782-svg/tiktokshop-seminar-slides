@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>スライドエディタ</title>
+<title>スライドエディタ - AI チャット</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap');
 
@@ -19,6 +19,7 @@
     flex-direction: column;
   }
 
+  /* ===== Toolbar ===== */
   .toolbar {
     display: flex;
     align-items: center;
@@ -33,7 +34,7 @@
     font-size: 16px;
     font-weight: 700;
     color: #69f0ae;
-    margin-right: 16px;
+    margin-right: 8px;
   }
 
   .toolbar select, .toolbar button {
@@ -53,49 +54,46 @@
     background: #333360;
   }
 
-  .toolbar button.primary {
-    background: #69f0ae;
-    color: #1a1a2e;
-    border-color: #69f0ae;
-    font-weight: 700;
-  }
-
-  .toolbar button.primary:hover {
-    background: #4cdf91;
-  }
-
-  .toolbar button.danger {
-    background: #ff5252;
-    color: #fff;
-    border-color: #ff5252;
-  }
-
   .toolbar .spacer { flex: 1; }
 
-  .toolbar .status {
+  .toolbar .api-status {
     font-size: 12px;
-    color: #888;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
   }
 
+  .toolbar .api-status.connected {
+    background: #69f0ae22;
+    color: #69f0ae;
+  }
+
+  .toolbar .api-status.disconnected {
+    background: #ff525222;
+    color: #ff5252;
+  }
+
+  /* ===== Main Layout ===== */
   .main {
     display: flex;
     flex: 1;
     overflow: hidden;
   }
 
+  /* ===== Left Panel (Chat) ===== */
   .left-panel {
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-direction: column;
     border-right: 2px solid #2a2a4a;
-    position: relative;
+    background: #12122a;
   }
 
   .left-panel .panel-header {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     background: #1e1e38;
     border-bottom: 1px solid #2a2a4a;
     font-size: 13px;
@@ -111,7 +109,180 @@
     font-size: 11px;
   }
 
-  #codeEditor {
+  /* Chat Messages */
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 6px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: #3a3a5a; border-radius: 3px; }
+
+  .msg {
+    max-width: 90%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  .msg.user {
+    align-self: flex-end;
+    background: #69f0ae;
+    color: #1a1a2e;
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg.ai {
+    align-self: flex-start;
+    background: #2a2a4a;
+    color: #e0e0e0;
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.system {
+    align-self: center;
+    background: #1e1e38;
+    color: #888;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+  }
+
+  .msg.ai .thinking {
+    color: #888;
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  /* Chat Input */
+  .chat-input-area {
+    padding: 12px 16px;
+    background: #1e1e38;
+    border-top: 1px solid #2a2a4a;
+    display: flex;
+    gap: 8px;
+  }
+
+  .chat-input-area textarea {
+    flex: 1;
+    resize: none;
+    background: #12122a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a5a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    outline: none;
+    min-height: 44px;
+    max-height: 120px;
+  }
+
+  .chat-input-area textarea:focus {
+    border-color: #69f0ae;
+  }
+
+  .chat-input-area textarea::placeholder {
+    color: #555;
+  }
+
+  .chat-input-area button {
+    align-self: flex-end;
+    padding: 10px 18px;
+    background: #69f0ae;
+    color: #1a1a2e;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .chat-input-area button:hover { background: #4cdf91; }
+  .chat-input-area button:disabled {
+    background: #3a3a5a;
+    color: #666;
+    cursor: not-allowed;
+  }
+
+  /* ===== Right Panel (Source / Preview) ===== */
+  .right-panel {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    background: #0f0f1e;
+  }
+
+  .right-panel .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 16px;
+    background: #1e1e38;
+    border-bottom: 1px solid #2a2a4a;
+    font-size: 13px;
+    font-weight: 500;
+    color: #aaa;
+  }
+
+  .tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #888;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover { color: #ccc; }
+
+  .tab-btn.active {
+    color: #69f0ae;
+    border-bottom-color: #69f0ae;
+  }
+
+  .right-panel .panel-header .spacer { flex: 1; }
+
+  .right-panel .panel-header .save-btn {
+    padding: 5px 14px;
+    background: #69f0ae;
+    color: #1a1a2e;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .right-panel .panel-header .save-btn:hover { background: #4cdf91; }
+
+  .tab-content {
+    flex: 1;
+    display: none;
+    overflow: hidden;
+  }
+
+  .tab-content.active { display: flex; }
+
+  #sourceCode {
     flex: 1;
     resize: none;
     background: #12122a;
@@ -126,86 +297,118 @@
     overflow: auto;
   }
 
-  #codeEditor::selection {
-    background: #264f78;
-  }
-
-  .right-panel {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    background: #0f0f1e;
-  }
-
-  .right-panel .panel-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: #1e1e38;
-    border-bottom: 1px solid #2a2a4a;
-    font-size: 13px;
-    font-weight: 500;
-    color: #aaa;
-  }
-
   #preview {
     flex: 1;
     border: none;
     background: #fff;
   }
 
-  .divider {
-    width: 4px;
-    cursor: col-resize;
-    background: #2a2a4a;
-    transition: background 0.2s;
-    position: absolute;
-    right: -3px;
-    top: 0;
-    bottom: 0;
-    z-index: 10;
-  }
-
-  .divider:hover, .divider.dragging {
-    background: #69f0ae;
-  }
-
-  .search-bar {
-    display: none;
+  /* ===== Loading Indicator ===== */
+  .loading-dots {
+    display: inline-flex;
+    gap: 4px;
     align-items: center;
-    gap: 8px;
-    padding: 6px 16px;
-    background: #252545;
-    border-bottom: 1px solid #2a2a4a;
   }
 
-  .search-bar.visible { display: flex; }
+  .loading-dots span {
+    width: 6px;
+    height: 6px;
+    background: #69f0ae;
+    border-radius: 50%;
+    animation: dotPulse 1.2s ease-in-out infinite;
+  }
 
-  .search-bar input {
-    flex: 1;
-    padding: 5px 10px;
-    background: #1a1a3a;
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dotPulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* ===== API Key Modal ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-overlay.visible { display: flex; }
+
+  .modal {
+    background: #1e1e38;
     border: 1px solid #3a3a5a;
-    border-radius: 4px;
+    border-radius: 12px;
+    padding: 32px;
+    width: 480px;
+    max-width: 90vw;
+  }
+
+  .modal h2 {
+    color: #69f0ae;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .modal p {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .modal label {
+    display: block;
+    font-size: 13px;
+    color: #ccc;
+    margin-bottom: 6px;
+  }
+
+  .modal input, .modal select {
+    width: 100%;
+    padding: 10px 14px;
+    background: #12122a;
+    border: 1px solid #3a3a5a;
+    border-radius: 8px;
     color: #e0e0e0;
     font-family: 'Fira Code', monospace;
     font-size: 13px;
     outline: none;
+    margin-bottom: 16px;
   }
 
-  .search-bar input:focus { border-color: #69f0ae; }
+  .modal input:focus { border-color: #69f0ae; }
 
-  .search-bar button {
-    padding: 5px 10px;
-    background: #2a2a4a;
+  .modal .btn-row {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .modal button {
+    padding: 8px 20px;
+    border-radius: 8px;
     border: 1px solid #3a3a5a;
-    border-radius: 4px;
+    background: #2a2a4a;
     color: #e0e0e0;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
     cursor: pointer;
-    font-size: 12px;
+    transition: all 0.2s;
   }
 
+  .modal button.primary {
+    background: #69f0ae;
+    color: #1a1a2e;
+    border-color: #69f0ae;
+    font-weight: 700;
+  }
+
+  /* ===== Toast ===== */
   .toast {
     position: fixed;
     bottom: 20px;
@@ -226,180 +429,424 @@
 </head>
 <body>
 
+<!-- Toolbar -->
 <div class="toolbar">
-  <h1>スライドエディタ</h1>
+  <h1>AI スライドエディタ</h1>
   <select id="fileSelect">
     <option value="index.html">index.html（メイン）</option>
     <option value="slides_all_sessions.html">slides_all_sessions.html（全回）</option>
     <option value="slides_session_5_8.html">slides_session_5_8.html（第5-8回）</option>
   </select>
   <button onclick="loadFile()">読み込み</button>
-  <button class="primary" onclick="updatePreview()">▶ プレビュー更新</button>
-  <button onclick="toggleSearch()">🔍 検索</button>
   <div class="spacer"></div>
-  <span class="status" id="status">Ctrl+S: プレビュー更新 / Ctrl+F: 検索</span>
-  <button class="primary" onclick="saveFile()">💾 保存</button>
+  <span class="api-status disconnected" id="apiStatus" onclick="showApiModal()">API未接続</span>
 </div>
 
+<!-- Main -->
 <div class="main">
-  <div class="left-panel" id="leftPanel">
+  <!-- Left: Chat -->
+  <div class="left-panel">
     <div class="panel-header">
-      📝 ソースコード
-      <span class="badge" id="lineCount">0 行</span>
+      💬 チャット
+      <span class="badge">AIに指示</span>
     </div>
-    <div class="search-bar" id="searchBar">
-      <input type="text" id="searchInput" placeholder="検索..." onkeydown="if(event.key==='Enter')findText()">
-      <button onclick="findText()">次へ</button>
-      <button onclick="toggleSearch()">✕</button>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg system">スライドファイルを選択して「読み込み」を押してください。その後、AIに編集指示を出せます。</div>
     </div>
-    <textarea id="codeEditor" spellcheck="false"></textarea>
-    <div class="divider" id="divider"></div>
+    <div class="chat-input-area">
+      <textarea id="chatInput" placeholder="例: タイトルを「○○」に変えて" rows="1" onkeydown="handleInputKey(event)"></textarea>
+      <button id="sendBtn" onclick="sendMessage()" disabled>送信</button>
+      <button id="stopBtn" onclick="stopGeneration()" style="display:none; background:#ff5252; color:#fff;">停止</button>
+    </div>
   </div>
-  <div class="right-panel" id="rightPanel">
+
+  <!-- Right: Source / Preview tabs -->
+  <div class="right-panel">
     <div class="panel-header">
-      👁 プレビュー
-      <span class="badge" id="slideInfo"></span>
+      <button class="tab-btn" data-tab="preview" onclick="switchTab('preview')">👁 プレビュー</button>
+      <button class="tab-btn active" data-tab="source" onclick="switchTab('source')">📝 ソースコード</button>
+      <div class="spacer"></div>
+      <button class="save-btn" onclick="saveFile()">💾 保存</button>
     </div>
-    <iframe id="preview"></iframe>
+    <div class="tab-content active" id="tab-source">
+      <textarea id="sourceCode" spellcheck="false" readonly></textarea>
+    </div>
+    <div class="tab-content" id="tab-preview">
+      <iframe id="preview"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- API Key Modal -->
+<div class="modal-overlay" id="apiModal">
+  <div class="modal">
+    <h2>Gemini API 設定</h2>
+    <p>Google AI Studio でAPIキーを取得してください。キーはブラウザのローカルストレージに保存されます。</p>
+    <label>APIキー</label>
+    <input type="password" id="apiKeyInput" placeholder="AIza...">
+    <label>モデル</label>
+    <select id="modelSelect">
+      <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro（最新・推奨）</option>
+      <option value="gemini-3-flash">Gemini 3 Flash</option>
+      <option value="gemini-2.5-pro-preview-06-05">Gemini 2.5 Pro</option>
+      <option value="gemini-2.5-flash-preview-05-20">Gemini 2.5 Flash</option>
+      <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+    </select>
+    <div class="btn-row">
+      <button onclick="hideApiModal()">キャンセル</button>
+      <button class="primary" onclick="saveApiKey()">保存</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-  const editor = document.getElementById('codeEditor');
-  const preview = document.getElementById('preview');
-  const fileSelect = document.getElementById('fileSelect');
-  const lineCount = document.getElementById('lineCount');
+  // ===== State =====
   let currentFile = 'index.html';
-  let originalContent = '';
+  let currentSource = '';
+  let apiKey = localStorage.getItem('gemini_api_key') || '';
+  let model = localStorage.getItem('gemini_model') || 'gemini-3.1-pro-preview';
+  let chatHistory = [];
+  let isProcessing = false;
+  let abortController = null;
 
-  // 初期読み込み
+  // ===== Init =====
   window.addEventListener('DOMContentLoaded', () => {
+    updateApiStatus();
     loadFile();
+    autoResizeInput();
   });
 
+  // ===== File Operations =====
   async function loadFile() {
-    currentFile = fileSelect.value;
+    currentFile = document.getElementById('fileSelect').value;
     try {
       const res = await fetch(currentFile);
-      const text = await res.text();
-      editor.value = text;
-      originalContent = text;
-      updateLineCount();
+      currentSource = await res.text();
+      document.getElementById('sourceCode').value = currentSource;
       updatePreview();
-      showToast(`${currentFile} を読み込みました`);
+      addSystemMessage(`${currentFile} を読み込みました（${currentSource.split('\\n').length} 行）`);
+      document.getElementById('sendBtn').disabled = !apiKey;
     } catch (e) {
-      showToast(`読み込みエラー: ${e.message}`);
+      showToast('読み込みエラー: ' + e.message);
     }
   }
 
+  let savedSlideIndex = 0;
+
+  function captureSlidePosition() {
+    const iframe = document.getElementById('preview');
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      if (!doc) return;
+      const slides = doc.querySelectorAll('.slide');
+      slides.forEach((s, i) => { if (s.classList.contains('active')) savedSlideIndex = i; });
+    } catch (e) {}
+  }
+
   function updatePreview() {
-    const blob = new Blob([editor.value], { type: 'text/html' });
+    captureSlidePosition();
+    const iframe = document.getElementById('preview');
+
+    // srcではなくdocument.writeで書き換え → goToがスコープ内で呼べる
+    // ただしdocument.writeはiframe内のJSを再実行しないため、srcdocを使う
+    // srcdocなら同一オリジンでアクセス可能
+
+    // HTMLにスライド復元用のスクリプトを注入
+    let html = currentSource;
+    if (savedSlideIndex > 0) {
+      const restoreScript = `
+<script>
+(function() {
+  var targetSlide = ${savedSlideIndex};
+  // DOMContentLoaded後に少し待ってからキーイベントでスライド移動
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var slides = document.querySelectorAll('.slide');
+      if (targetSlide >= slides.length) return;
+      // 全スライドのactiveを外す
+      slides.forEach(function(s) { s.classList.remove('active', 'exit-left'); });
+      // 目的のスライドをactiveにする
+      slides[targetSlide].classList.add('active');
+      // サムネイルも更新
+      var thumbs = document.querySelectorAll('.thumb-item');
+      thumbs.forEach(function(t, i) {
+        t.classList.toggle('active', i === targetSlide);
+      });
+      // カウンター更新
+      var numEl = document.getElementById('currentNum');
+      if (numEl) numEl.textContent = targetSlide + 1;
+      // セッションジャンプバーも更新
+      var sessionMap = {};
+      slides.forEach(function(s, i) {
+        var ds = s.getAttribute('data-session');
+        if (ds && !(ds in sessionMap)) sessionMap[ds] = i;
+      });
+      var activeSession = null;
+      var entries = Object.entries(sessionMap);
+      for (var j = entries.length - 1; j >= 0; j--) {
+        if (targetSlide >= entries[j][1]) { activeSession = entries[j][0]; break; }
+      }
+      if (activeSession) {
+        document.querySelectorAll('.sjb-btn').forEach(function(b) {
+          b.classList.toggle('active', b.getAttribute('data-s') === activeSession);
+        });
+      }
+    }, 300);
+  });
+})();
+<\/script>`;
+      html = html.replace('</body>', restoreScript + '\n</body>');
+    }
+
+    const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
-    preview.src = url;
-    document.getElementById('slideInfo').textContent = 'プレビュー更新済み';
+    iframe.src = url;
   }
 
-  function updateLineCount() {
-    const lines = editor.value.split('\n').length;
-    lineCount.textContent = `${lines} 行`;
-  }
-
-  async function saveFile() {
-    // ローカルファイルへの保存（ダウンロード）
-    const blob = new Blob([editor.value], { type: 'text/html; charset=utf-8' });
+  function saveFile() {
+    const blob = new Blob([currentSource], { type: 'text/html; charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = currentFile;
     a.click();
     URL.revokeObjectURL(a.href);
-    originalContent = editor.value;
     showToast(`${currentFile} をダウンロードしました`);
   }
 
-  // キーボードショートカット
-  editor.addEventListener('keydown', (e) => {
-    // Ctrl+S / Cmd+S → プレビュー更新
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+  // ===== Tab Switching =====
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.getElementById('tab-source').classList.toggle('active', tab === 'source');
+    document.getElementById('tab-preview').classList.toggle('active', tab === 'preview');
+    if (tab === 'preview') updatePreview();
+  }
+
+  // ===== Chat =====
+  function addMessage(role, text) {
+    const container = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.textContent = text;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+    return div;
+  }
+
+  function addSystemMessage(text) {
+    addMessage('system', text);
+  }
+
+  function addLoadingMessage() {
+    const container = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.className = 'msg ai';
+    div.id = 'loadingMsg';
+    div.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> 考え中...';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+    return div;
+  }
+
+  function removeLoadingMessage() {
+    const el = document.getElementById('loadingMsg');
+    if (el) el.remove();
+  }
+
+  function handleInputKey(e) {
+    // isComposing: IME変換中はtrueになる（日本語入力の確定Enterを無視）
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
       e.preventDefault();
-      updatePreview();
-      showToast('プレビュー更新');
-    }
-
-    // Ctrl+F / Cmd+F → 検索
-    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-      e.preventDefault();
-      toggleSearch();
-    }
-
-    // Tab → インデント
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const start = editor.selectionStart;
-      const end = editor.selectionEnd;
-      editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end);
-      editor.selectionStart = editor.selectionEnd = start + 2;
-    }
-  });
-
-  editor.addEventListener('input', updateLineCount);
-
-  // 検索
-  function toggleSearch() {
-    const bar = document.getElementById('searchBar');
-    bar.classList.toggle('visible');
-    if (bar.classList.contains('visible')) {
-      document.getElementById('searchInput').focus();
+      sendMessage();
     }
   }
 
-  let lastSearchPos = 0;
-  function findText() {
-    const query = document.getElementById('searchInput').value;
-    if (!query) return;
-    const text = editor.value;
-    const idx = text.indexOf(query, lastSearchPos);
-    if (idx !== -1) {
-      editor.focus();
-      editor.setSelectionRange(idx, idx + query.length);
-      lastSearchPos = idx + 1;
-      // スクロール位置調整
-      const lineNum = text.substring(0, idx).split('\n').length;
-      const lineHeight = 22;
-      editor.scrollTop = Math.max(0, (lineNum - 5) * lineHeight);
+  function autoResizeInput() {
+    const input = document.getElementById('chatInput');
+    input.addEventListener('input', () => {
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+    });
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text || isProcessing || !apiKey) return;
+
+    isProcessing = true;
+    abortController = new AbortController();
+    document.getElementById('sendBtn').style.display = 'none';
+    document.getElementById('stopBtn').style.display = '';
+    input.value = '';
+    input.style.height = 'auto';
+
+    addMessage('user', text);
+    chatHistory.push({ role: 'user', text });
+
+    addLoadingMessage();
+
+    try {
+      const newSource = await callGemini(text, abortController.signal);
+      removeLoadingMessage();
+
+      if (newSource) {
+        currentSource = newSource;
+        document.getElementById('sourceCode').value = currentSource;
+        updatePreview();
+        addMessage('ai', lastAiSummary || '変更を適用しました。プレビュータブで確認してください。');
+        switchTab('preview');
+      } else {
+        addMessage('ai', '変更を生成できませんでした。もう少し具体的に指示してみてください。');
+      }
+    } catch (e) {
+      removeLoadingMessage();
+      if (e.name === 'AbortError') {
+        addMessage('system', '生成を停止しました');
+      } else {
+        addMessage('ai', 'エラー: ' + e.message);
+      }
+    }
+
+    isProcessing = false;
+    abortController = null;
+    document.getElementById('sendBtn').style.display = '';
+    document.getElementById('stopBtn').style.display = 'none';
+    document.getElementById('sendBtn').disabled = false;
+    input.focus();
+  }
+
+  // ===== Gemini API =====
+  function stopGeneration() {
+    if (abortController) {
+      abortController.abort();
+    }
+  }
+
+  async function callGemini(instruction, signal) {
+    const systemPrompt = `あなたはHTMLスライドの編集アシスタントです。
+
+ユーザーの編集指示に対して、変更箇所だけをJSON形式で返してください。
+
+## 応答フォーマット（厳守）
+
+必ず以下のJSON形式のみで応答してください。説明文やマークダウンは不要です。
+
+{
+  "changes": [
+    {
+      "search": "変更前のHTMLテキスト（そのまま一致する部分）",
+      "replace": "変更後のHTMLテキスト"
+    }
+  ],
+  "summary": "変更内容の簡潔な説明（日本語）"
+}
+
+## ルール
+- searchには、現在のHTMLから完全一致する部分を正確にコピーしてください
+- searchは変更を特定できる最小限の範囲にしてください（行数を少なく）
+- 複数箇所の変更がある場合はchanges配列に複数のオブジェクトを入れてください
+- スライドは .slide クラスのdiv要素です
+- 既存のスタイル・アニメーション・構造を壊さないでください
+- JSON以外の出力は禁止です（\`\`\`jsonも不要）`;
+
+    const contents = [
+      {
+        role: 'user',
+        parts: [{ text: systemPrompt + '\n\n--- 現在のHTMLソース ---\n\n' + currentSource + '\n\n--- 編集指示 ---\n\n' + instruction }]
+      }
+    ];
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal,
+      body: JSON.stringify({
+        contents,
+        generationConfig: {
+          maxOutputTokens: 8192,
+          temperature: 0.1
+        }
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API Error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    let output = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    // コードブロックのマーカーを除去
+    output = output.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
+
+    try {
+      const parsed = JSON.parse(output);
+      if (parsed.changes && Array.isArray(parsed.changes)) {
+        let modified = currentSource;
+        let appliedCount = 0;
+        for (const change of parsed.changes) {
+          if (modified.includes(change.search)) {
+            modified = modified.replace(change.search, change.replace);
+            appliedCount++;
+          }
+        }
+        if (appliedCount > 0) {
+          lastAiSummary = parsed.summary || `${appliedCount}箇所を変更しました`;
+          return modified;
+        }
+      }
+    } catch (e) {
+      // JSONパース失敗 → フォールバック: HTML全体として扱う
+      if (output.startsWith('<!DOCTYPE') || output.startsWith('<html') || output.startsWith('<!doctype')) {
+        lastAiSummary = '変更を適用しました';
+        return output;
+      }
+    }
+
+    return null;
+  }
+
+  let lastAiSummary = '';
+
+  // ===== API Key Modal =====
+  function showApiModal() {
+    document.getElementById('apiKeyInput').value = apiKey;
+    document.getElementById('modelSelect').value = model;
+    document.getElementById('apiModal').classList.add('visible');
+  }
+
+  function hideApiModal() {
+    document.getElementById('apiModal').classList.remove('visible');
+  }
+
+  function saveApiKey() {
+    apiKey = document.getElementById('apiKeyInput').value.trim();
+    model = document.getElementById('modelSelect').value;
+    localStorage.setItem('gemini_api_key', apiKey);
+    localStorage.setItem('gemini_model', model);
+    updateApiStatus();
+    hideApiModal();
+    document.getElementById('sendBtn').disabled = !apiKey;
+    showToast(apiKey ? 'APIキーを保存しました' : 'APIキーをクリアしました');
+  }
+
+  function updateApiStatus() {
+    const el = document.getElementById('apiStatus');
+    if (apiKey) {
+      el.textContent = '✓ API接続済み';
+      el.className = 'api-status connected';
     } else {
-      lastSearchPos = 0;
-      showToast('見つかりませんでした（先頭に戻ります）');
+      el.textContent = 'API未接続（クリックして設定）';
+      el.className = 'api-status disconnected';
     }
   }
 
-  // リサイズ
-  const divider = document.getElementById('divider');
-  const leftPanel = document.getElementById('leftPanel');
-  const rightPanel = document.getElementById('rightPanel');
-
-  let isDragging = false;
-  divider.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    divider.classList.add('dragging');
-    e.preventDefault();
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const pct = (e.clientX / window.innerWidth) * 100;
-    const clamped = Math.max(20, Math.min(80, pct));
-    leftPanel.style.width = clamped + '%';
-    rightPanel.style.width = (100 - clamped) + '%';
-  });
-
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-    divider.classList.remove('dragging');
-  });
-
-  // トースト通知
+  // ===== Toast =====
   function showToast(msg) {
     const toast = document.getElementById('toast');
     toast.textContent = msg;
