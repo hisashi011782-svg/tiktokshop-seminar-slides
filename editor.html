@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スライドエディタ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    background: #16162a;
+    border-bottom: 1px solid #2a2a4a;
+    flex-shrink: 0;
+  }
+
+  .toolbar h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #69f0ae;
+    margin-right: 16px;
+  }
+
+  .toolbar select, .toolbar button {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid #3a3a5a;
+    background: #2a2a4a;
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toolbar select:hover, .toolbar button:hover {
+    border-color: #69f0ae;
+    background: #333360;
+  }
+
+  .toolbar button.primary {
+    background: #69f0ae;
+    color: #1a1a2e;
+    border-color: #69f0ae;
+    font-weight: 700;
+  }
+
+  .toolbar button.primary:hover {
+    background: #4cdf91;
+  }
+
+  .toolbar button.danger {
+    background: #ff5252;
+    color: #fff;
+    border-color: #ff5252;
+  }
+
+  .toolbar .spacer { flex: 1; }
+
+  .toolbar .status {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .left-panel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid #2a2a4a;
+    position: relative;
+  }
+
+  .left-panel .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #1e1e38;
+    border-bottom: 1px solid #2a2a4a;
+    font-size: 13px;
+    font-weight: 500;
+    color: #aaa;
+  }
+
+  .left-panel .panel-header .badge {
+    background: #69f0ae22;
+    color: #69f0ae;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  #codeEditor {
+    flex: 1;
+    resize: none;
+    background: #12122a;
+    color: #d4d4d4;
+    border: none;
+    padding: 16px;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    tab-size: 2;
+    outline: none;
+    overflow: auto;
+  }
+
+  #codeEditor::selection {
+    background: #264f78;
+  }
+
+  .right-panel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    background: #0f0f1e;
+  }
+
+  .right-panel .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #1e1e38;
+    border-bottom: 1px solid #2a2a4a;
+    font-size: 13px;
+    font-weight: 500;
+    color: #aaa;
+  }
+
+  #preview {
+    flex: 1;
+    border: none;
+    background: #fff;
+  }
+
+  .divider {
+    width: 4px;
+    cursor: col-resize;
+    background: #2a2a4a;
+    transition: background 0.2s;
+    position: absolute;
+    right: -3px;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  .divider:hover, .divider.dragging {
+    background: #69f0ae;
+  }
+
+  .search-bar {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: #252545;
+    border-bottom: 1px solid #2a2a4a;
+  }
+
+  .search-bar.visible { display: flex; }
+
+  .search-bar input {
+    flex: 1;
+    padding: 5px 10px;
+    background: #1a1a3a;
+    border: 1px solid #3a3a5a;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .search-bar input:focus { border-color: #69f0ae; }
+
+  .search-bar button {
+    padding: 5px 10px;
+    background: #2a2a4a;
+    border: 1px solid #3a3a5a;
+    border-radius: 4px;
+    color: #e0e0e0;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #69f0ae;
+    color: #1a1a2e;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>スライドエディタ</h1>
+  <select id="fileSelect">
+    <option value="index.html">index.html（メイン）</option>
+    <option value="slides_all_sessions.html">slides_all_sessions.html（全回）</option>
+    <option value="slides_session_5_8.html">slides_session_5_8.html（第5-8回）</option>
+  </select>
+  <button onclick="loadFile()">読み込み</button>
+  <button class="primary" onclick="updatePreview()">▶ プレビュー更新</button>
+  <button onclick="toggleSearch()">🔍 検索</button>
+  <div class="spacer"></div>
+  <span class="status" id="status">Ctrl+S: プレビュー更新 / Ctrl+F: 検索</span>
+  <button class="primary" onclick="saveFile()">💾 保存</button>
+</div>
+
+<div class="main">
+  <div class="left-panel" id="leftPanel">
+    <div class="panel-header">
+      📝 ソースコード
+      <span class="badge" id="lineCount">0 行</span>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <input type="text" id="searchInput" placeholder="検索..." onkeydown="if(event.key==='Enter')findText()">
+      <button onclick="findText()">次へ</button>
+      <button onclick="toggleSearch()">✕</button>
+    </div>
+    <textarea id="codeEditor" spellcheck="false"></textarea>
+    <div class="divider" id="divider"></div>
+  </div>
+  <div class="right-panel" id="rightPanel">
+    <div class="panel-header">
+      👁 プレビュー
+      <span class="badge" id="slideInfo"></span>
+    </div>
+    <iframe id="preview"></iframe>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const editor = document.getElementById('codeEditor');
+  const preview = document.getElementById('preview');
+  const fileSelect = document.getElementById('fileSelect');
+  const lineCount = document.getElementById('lineCount');
+  let currentFile = 'index.html';
+  let originalContent = '';
+
+  // 初期読み込み
+  window.addEventListener('DOMContentLoaded', () => {
+    loadFile();
+  });
+
+  async function loadFile() {
+    currentFile = fileSelect.value;
+    try {
+      const res = await fetch(currentFile);
+      const text = await res.text();
+      editor.value = text;
+      originalContent = text;
+      updateLineCount();
+      updatePreview();
+      showToast(`${currentFile} を読み込みました`);
+    } catch (e) {
+      showToast(`読み込みエラー: ${e.message}`);
+    }
+  }
+
+  function updatePreview() {
+    const blob = new Blob([editor.value], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    preview.src = url;
+    document.getElementById('slideInfo').textContent = 'プレビュー更新済み';
+  }
+
+  function updateLineCount() {
+    const lines = editor.value.split('\n').length;
+    lineCount.textContent = `${lines} 行`;
+  }
+
+  async function saveFile() {
+    // ローカルファイルへの保存（ダウンロード）
+    const blob = new Blob([editor.value], { type: 'text/html; charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = currentFile;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    originalContent = editor.value;
+    showToast(`${currentFile} をダウンロードしました`);
+  }
+
+  // キーボードショートカット
+  editor.addEventListener('keydown', (e) => {
+    // Ctrl+S / Cmd+S → プレビュー更新
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      updatePreview();
+      showToast('プレビュー更新');
+    }
+
+    // Ctrl+F / Cmd+F → 検索
+    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+      e.preventDefault();
+      toggleSearch();
+    }
+
+    // Tab → インデント
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end);
+      editor.selectionStart = editor.selectionEnd = start + 2;
+    }
+  });
+
+  editor.addEventListener('input', updateLineCount);
+
+  // 検索
+  function toggleSearch() {
+    const bar = document.getElementById('searchBar');
+    bar.classList.toggle('visible');
+    if (bar.classList.contains('visible')) {
+      document.getElementById('searchInput').focus();
+    }
+  }
+
+  let lastSearchPos = 0;
+  function findText() {
+    const query = document.getElementById('searchInput').value;
+    if (!query) return;
+    const text = editor.value;
+    const idx = text.indexOf(query, lastSearchPos);
+    if (idx !== -1) {
+      editor.focus();
+      editor.setSelectionRange(idx, idx + query.length);
+      lastSearchPos = idx + 1;
+      // スクロール位置調整
+      const lineNum = text.substring(0, idx).split('\n').length;
+      const lineHeight = 22;
+      editor.scrollTop = Math.max(0, (lineNum - 5) * lineHeight);
+    } else {
+      lastSearchPos = 0;
+      showToast('見つかりませんでした（先頭に戻ります）');
+    }
+  }
+
+  // リサイズ
+  const divider = document.getElementById('divider');
+  const leftPanel = document.getElementById('leftPanel');
+  const rightPanel = document.getElementById('rightPanel');
+
+  let isDragging = false;
+  divider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    divider.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const pct = (e.clientX / window.innerWidth) * 100;
+    const clamped = Math.max(20, Math.min(80, pct));
+    leftPanel.style.width = clamped + '%';
+    rightPanel.style.width = (100 - clamped) + '%';
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    divider.classList.remove('dragging');
+  });
+
+  // トースト通知
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+</script>
+</body>
+</html>
