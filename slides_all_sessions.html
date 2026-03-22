@@ -852,6 +852,33 @@
     .slide { page-break-after: always; }
     body { background: #fff; }
   }
+
+  /* プレゼンモード */
+  body.present-mode {
+    background: #000 !important;
+    cursor: none;
+  }
+  body.present-mode .session-jump-bar {
+    display: none !important;
+  }
+  body.present-mode .slide-nav {
+    display: none !important;
+  }
+  body.present-mode .slide {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    top: 50% !important;
+    left: 50% !important;
+  }
+  body.present-mode .slide.active {
+    transform: translate(-50%, -50%) scale(var(--slide-scale, 1)) !important;
+  }
+  body.present-mode .thumb-sidebar {
+    display: none !important;
+  }
+  body.present-mode:hover {
+    cursor: default;
+  }
 </style>
 </head>
 <body>
@@ -3088,7 +3115,7 @@
         </div>
         <div style="text-align:center; padding:20px 0;">
           <p style="font-size:14px; color:#777;">1本あたりのコスト</p>
-          <p style="font-size:42px; font-weight:900; color:#7c4dff;">30<span style="font-size:18px;">〜60円</span></p>
+          <p style="font-size:42px; font-weight:900; color:#7c4dff;">200<span style="font-size:18px;">円</span></p>
         </div>
         <ul class="checklist">
           <li><span class="check-icon">&#x2713;</span> スマホだけでOK</li>
@@ -3100,7 +3127,7 @@
     </div>
 
     <div style="background:linear-gradient(135deg, #ede7f6, #e8f0fe); border-radius:12px; padding:20px 32px; margin-top:24px; text-align:center;">
-      <p style="font-size:18px; font-weight:700;">コスト比較：従来の <span style="color:#ff1744;">1/25以下</span></p>
+      <p style="font-size:18px; font-weight:700;">コスト比較：従来の <span style="color:#ff1744;">1/20以下</span></p>
       <p style="font-size:14px; color:#555; margin-top:8px;">この価格差が、参入障壁を劇的に下げ、誰でもコンテンツコマースに参加できる時代を作りました。</p>
     </div>
   </div>
@@ -3120,7 +3147,7 @@
   <div class="slide-content">
     <div class="section-label purple">WORKFLOW</div>
     <h2>AI動画作成の<span class="hl-purple">具体的な流れ</span></h2>
-    <p class="subtitle">売れている動画を分析 → AIで独自動画を生成 → 著作権もクリア</p>
+    <p class="subtitle">売れている動画を分析 → AIで独自動画を生成 → 様々な問題もクリア</p>
 
     <div class="card-grid cols-4 mt-24">
       <div class="card shadow" style="text-align:center; border-top:4px solid #7c4dff;">
@@ -3128,6 +3155,7 @@
         <div style="font-size:28px; margin-bottom:8px;">&#x1F50D;</div>
         <h4 style="font-size:15px;">競合分析</h4>
         <p style="font-size:14px; color:#555; margin-top:8px;">TikTok Shopで<strong>売れている動画</strong>をリサーチ。構成・フック・CTAを分析。</p>
+        <p style="font-size:12px; color:#7c4dff; margin-top:6px; font-weight:600;">まず「売れている型」を知る</p>
       </div>
       <div class="card shadow" style="text-align:center; border-top:4px solid #3366ff;">
         <div style="background:#3366ff; color:#fff; width:32px; height:32px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; margin-bottom:12px;">2</div>
@@ -3139,13 +3167,14 @@
         <div style="background:#00c853; color:#fff; width:32px; height:32px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; margin-bottom:12px;">3</div>
         <div style="font-size:28px; margin-bottom:8px;">&#x2705;</div>
         <h4 style="font-size:15px;">品質チェック</h4>
-        <p style="font-size:14px; color:#555; margin-top:8px;">著作権クリア確認。商品訴求の<strong>フック</strong>が効いているかを検証。</p>
+        <p style="font-size:14px; color:#555; margin-top:8px;">様々な問題をクリア確認。商品訴求の<strong>フック</strong>が効いているかを検証。</p>
       </div>
       <div class="card shadow" style="text-align:center; border-top:4px solid #ff6d00;">
         <div style="background:#ff6d00; color:#fff; width:32px; height:32px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; margin-bottom:12px;">4</div>
         <div style="font-size:28px; margin-bottom:8px;">&#x1F4F1;</div>
         <h4 style="font-size:15px;">投稿・検証</h4>
         <p style="font-size:14px; color:#555; margin-top:8px;">TikTok Shopに投稿。<strong>IMPとCTR</strong>を計測し、ABテストを回す。</p>
+        <p style="font-size:12px; color:#ff6d00; margin-top:6px; font-weight:600;">数字で判断、感覚に頼らない</p>
       </div>
     </div>
 
@@ -3169,7 +3198,7 @@
             <td style="padding:8px 0; text-align:right; font-size:14px;">TikTok連携強い</td>
           </tr>
           <tr>
-            <td style="padding:8px 0; font-weight:600;">中国開発業者</td>
+            <td style="padding:8px 0; font-weight:600;">EC開発業者</td>
             <td style="padding:8px 0; text-align:right; color:#7c4dff; font-weight:700;">約200円</td>
             <td style="padding:8px 0; text-align:right; font-size:14px;">カスタマイズ性高</td>
           </tr>
@@ -3183,7 +3212,7 @@
           <li style="color:#69f0ae;">&#x2713; 背景を自由に差し替え</li>
           <li style="color:#69f0ae;">&#x2713; ナレーション自動生成</li>
           <li style="color:#69f0ae;">&#x2713; テロップ・字幕の自動挿入</li>
-          <li style="color:#448aff;">&#x2192; 著作権問題をクリア</li>
+          <li style="color:#448aff;">&#x2192; 様々な問題をクリア</li>
         </ul>
       </div>
     </div>
@@ -3249,7 +3278,11 @@
         </div>
         <div class="info-box red">
           <span class="info-icon">&#x26A0;&#xFE0F;</span>
-          <p><strong>注意：いきなり商品の特徴を言い出すのはNG！</strong><br>視聴者は最初に「自分ごと化」できないと、すぐ離脱します。<strong class="hl-red">「なぜそれが必要なのか」</strong>から始めることが鉄則。</p>
+          <p><strong>注意：いきなり商品の特徴を言い出すのはNG！</strong><br>視聴者は最初に「自分ごと化」できないと、すぐ離脱します。<strong class="hl-red">「なぜそれが必要なのか」</strong>から始めることが鉄則。<br><strong>順番が売上を10倍変える。</strong></p>
+        </div>
+        <div class="info-box" style="margin-top:12px; background:linear-gradient(135deg, #e8f0fe, #ede7f6); border-left:4px solid #7c4dff;">
+          <span class="info-icon">&#x1F4CC;</span>
+          <p style="font-size:14px;">上記はあくまで<strong>売れるパターンの一例</strong>です。商品ジャンルやターゲットによって<strong>最適な構成は異なります</strong>。実際には他にも多様なパターンがあり、セミナーで詳しくお伝えします。</p>
         </div>
       </div>
     </div>
@@ -3342,6 +3375,128 @@
   </div>
 </div>
 
+<!-- SESSION 6: REAL EXAMPLE - Chocolate Video -->
+<div class="slide">
+  <div class="top-bar purple"></div>
+  <div class="slide-header">
+    <span>TIKTOK SHOP STUDY SESSION | PART 6</span>
+    <span></span>
+  </div>
+  <div class="slide-content">
+    <div class="section-label purple">REAL EXAMPLE</div>
+    <h2>実例で見る<span class="hl-purple">売れる動画</span>の構成術</h2>
+    <p class="subtitle">チョコレート商品の紹介動画（24秒）を分解。短尺でも売れる理由がここにある。</p>
+
+    <div style="display:grid; grid-template-columns:240px 1fr 1fr; gap:16px; margin-top:12px;">
+      <!-- 左: 動画埋め込み -->
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <div style="background:#000; border-radius:16px; overflow:hidden; width:240px; height:427px; box-shadow:0 4px 20px rgba(0,0,0,0.15);">
+          <iframe width="240" height="427" src="https://www.youtube.com/embed/2aBfI4JNetE?rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border:none;"></iframe>
+        </div>
+        <p style="font-size:11px; color:#999; margin-top:6px; text-align:center;">実際の動画（24秒）</p>
+      </div>
+
+      <!-- 中央: ステップ1-3 -->
+      <div>
+        <div style="background:#f8f9fb; border-radius:16px; padding:16px;">
+          <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+            <div style="background:#ff1744; color:#fff; width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;">1</div>
+            <div>
+              <p style="font-weight:700; font-size:13px;">フック（0秒）</p>
+              <p style="font-size:11px; color:#555;">普通のチョコへの不満 → 共感でスクロール停止</p>
+            </div>
+          </div>
+          <div style="background:#fff0f3; padding:4px 12px; border-radius:6px; margin-bottom:8px; margin-left:34px;">
+            <p style="font-size:12px; color:#ff1744;">「これだけ？まじで一口で終わるわ！」</p>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+            <div style="background:#3366ff; color:#fff; width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;">2</div>
+            <div>
+              <p style="font-weight:700; font-size:13px;">商品提示（3秒）</p>
+              <p style="font-size:11px; color:#555;">パッケージの重量感で圧倒</p>
+            </div>
+          </div>
+          <div style="background:#e8f0fe; padding:4px 12px; border-radius:6px; margin-bottom:8px; margin-left:34px;">
+            <p style="font-size:12px; color:#3366ff;">「見てで！この550gの重量化！おぉい！」</p>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+            <div style="background:#7c4dff; color:#fff; width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;">3</div>
+            <div>
+              <p style="font-weight:700; font-size:13px;">驚き演出（7秒）</p>
+              <p style="font-size:11px; color:#555;">中身を広げて視覚的インパクト</p>
+            </div>
+          </div>
+          <div style="background:#ede7f6; padding:4px 12px; border-radius:6px; margin-left:34px;">
+            <p style="font-size:12px; color:#7c4dff;">「これやばくない！見てよこの断面で！」</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右: ステップ4-6 -->
+      <div>
+        <div style="background:#f8f9fb; border-radius:16px; padding:16px;">
+          <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+            <div style="background:#00c853; color:#fff; width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;">4</div>
+            <div>
+              <p style="font-weight:700; font-size:13px;">魅力の深掘り（11秒）</p>
+              <p style="font-size:11px; color:#555;">質感＋バリエーションで欲求刺激</p>
+            </div>
+          </div>
+          <div style="background:#e8f5e9; padding:4px 12px; border-radius:6px; margin-bottom:8px; margin-left:34px;">
+            <p style="font-size:12px; color:#00c853;">「ナッツゴリゴリすぎな！11種類もあってね」</p>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+            <div style="background:#ff6d00; color:#fff; width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;">5</div>
+            <div>
+              <p style="font-weight:700; font-size:13px;">価値の確定（15秒）</p>
+              <p style="font-size:11px; color:#555;">コスパ訴求 → 「これしかない」で決定打</p>
+            </div>
+          </div>
+          <div style="background:#fff3e0; padding:4px 12px; border-radius:6px; margin-bottom:8px; margin-left:34px;">
+            <p style="font-size:12px; color:#ff6d00;">「コスパ最強すぎてね、もうこれしか買わんわ！」</p>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+            <div style="background:#1a1a2e; color:#fff; width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;">6</div>
+            <div>
+              <p style="font-weight:700; font-size:13px;">CTA（20秒）</p>
+              <p style="font-size:11px; color:#555;">限定感＋緊急性で即行動を促す</p>
+            </div>
+          </div>
+          <div style="background:#fff0f3; padding:4px 12px; border-radius:6px; margin-left:34px;">
+            <p style="font-size:12px; color:#ff1744;">「今だけだからね、ここから速攻でチェック！急げえ！」</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 下部: 工夫ポイント3点 -->
+    <div class="card-grid cols-3" style="margin-top:10px; gap:12px;">
+      <div class="card shadow" style="border-top:3px solid #ff1744; padding:10px;">
+        <h4 style="font-size:13px; color:#ff1744;">&#x1F525; 誇張表現で余白を作る</h4>
+        <p style="font-size:12px; color:#555; margin-top:4px;">「一口で終わる」という不満から始め、大げさな表現で<strong>共感＋ツッコミ＝コメント</strong>を誘発</p>
+      </div>
+      <div class="card shadow" style="border-top:3px solid #7c4dff; padding:10px;">
+        <h4 style="font-size:13px; color:#7c4dff;">&#x1F3A2; 感情のジェットコースター</h4>
+        <p style="font-size:12px; color:#555; margin-top:4px;">不満→驚き→興奮→確信と<strong>感情を揺さぶり続ける</strong>ことで最後まで離脱させない</p>
+      </div>
+      <div class="card shadow" style="border-top:3px solid #ff6d00; padding:10px;">
+        <h4 style="font-size:13px; color:#ff6d00;">&#x23F0; 限定感で即行動</h4>
+        <p style="font-size:12px; color:#555; margin-top:4px;">「今だけ」「急げ」で<strong>迷う余地を与えず</strong>購入リンクへ誘導。24秒で完結</p>
+      </div>
+    </div>
+
+    <p style="font-size:11px; color:#999; text-align:center; margin-top:6px;">&#x1F4CC; これは売れる動画パターンの一例です。商品に合わせた構成の最適化が重要です。</p>
+  </div>
+  <div class="slide-footer">
+    <span>2026.03.15 | TikTok Shop Strategy Meeting</span>
+    <span>Page 13-2</span>
+  </div>
+</div>
+
 <!-- SESSION 6: TIMING -->
 <div class="slide">
   <div class="top-bar green"></div>
@@ -3352,57 +3507,59 @@
   <div class="slide-content">
     <div class="section-label green">TIMING</div>
     <h2>動画を作るべき<span class="hl-green">タイミング</span></h2>
-    <p class="subtitle">「いつ」動画を作るかで、成果が180度変わります。</p>
+    <p class="subtitle">「いつ」動画を作るかで、成果が180度変わります。まずはデータを見てから動く。</p>
 
-    <div style="background:#f8f9fb; border-radius:16px; padding:32px; margin-top:24px;">
-      <div style="display:flex; align-items:center; gap:48px;">
+    <div style="background:#f8f9fb; border-radius:16px; padding:20px 28px; margin-top:16px;">
+      <div style="display:flex; align-items:center; gap:36px;">
         <div style="flex:1;">
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#e0e0e0; color:#777;">0</div>
             <div>
               <h4>開始直後</h4>
-              <p style="font-size:14px; color:#555;">静止画で100商品を出品。この時点では<strong>動画は不要</strong>。</p>
+              <p style="font-size:13px; color:#555;">静止画で100商品を出品。この時点では<strong>動画は不要</strong>。</p>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#3366ff;">1</div>
             <div>
               <h4>2週間後：データ確認</h4>
-              <p style="font-size:14px; color:#555;">IMPが発生した商品、実際に売れた商品を特定。</p>
+              <p style="font-size:13px; color:#555;">IMPが発生した商品、実際に売れた商品を特定。</p>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#7c4dff;">2</div>
             <div>
               <h4 style="color:#7c4dff;">1〜3ヶ月後：動画作成開始 &#x2190; ここ！</h4>
-              <p style="font-size:14px; color:#555;">売れた商品のみ、AIで動画を作成。<strong>15〜30秒の短尺動画 x 20本</strong>を目標に。</p>
+              <p style="font-size:13px; color:#555;">売れた商品のみ、AIで動画を作成。<strong>15〜30秒の短尺動画 x 20本</strong>を目標に。</p>
             </div>
           </div>
           <div class="timeline-item">
             <div class="timeline-dot" style="background:#00c853;">3</div>
             <div>
               <h4>売上加速フェーズ</h4>
-              <p style="font-size:14px; color:#555;">バズった動画をベースにバリエーション展開。クリエイター提携も時期を見て検討。</p>
+              <p style="font-size:13px; color:#555;">バズった動画をベースにバリエーション展開。クリエイター提携も時期を見て検討。</p>
             </div>
           </div>
         </div>
-        <div style="background:#fff; border-radius:12px; padding:24px; min-width:300px; box-shadow:0 4px 20px rgba(0,0,0,0.06);">
-          <p style="font-size:15px; color:#888; letter-spacing:2px; margin-bottom:12px;">KEY METRICS</p>
-          <div style="margin-bottom:16px;">
-            <p style="font-size:14px; color:#555;">動画投稿目標（月間）</p>
-            <p style="font-size:36px; font-weight:900; color:#7c4dff;">20<span style="font-size:16px;">本/4週</span></p>
+        <div style="background:#fff; border-radius:12px; padding:20px; min-width:280px; box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+          <p style="font-size:14px; color:#888; letter-spacing:2px; margin-bottom:10px;">KEY METRICS</p>
+          <div style="margin-bottom:12px;">
+            <p style="font-size:13px; color:#555;">動画投稿目標（月間）</p>
+            <p style="font-size:32px; font-weight:900; color:#7c4dff;">20<span style="font-size:14px;">本/4週</span></p>
           </div>
-          <div style="margin-bottom:16px;">
-            <p style="font-size:14px; color:#555;">1本あたりの長さ</p>
-            <p style="font-size:36px; font-weight:900; color:#3366ff;">15〜30<span style="font-size:16px;">秒</span></p>
+          <div style="margin-bottom:12px;">
+            <p style="font-size:13px; color:#555;">1本あたりの長さ</p>
+            <p style="font-size:32px; font-weight:900; color:#3366ff;">15〜30<span style="font-size:14px;">秒</span></p>
           </div>
           <div>
-            <p style="font-size:14px; color:#555;">重要指標</p>
-            <p style="font-size:18px; font-weight:700; color:#ff1744;">冒頭3秒のフック強化<br>完視率の最大化</p>
+            <p style="font-size:13px; color:#555;">重要指標</p>
+            <p style="font-size:16px; font-weight:700; color:#ff1744;">冒頭3秒のフック強化<br>完視率の最大化</p>
           </div>
         </div>
       </div>
     </div>
+
+    <p style="font-size:12px; color:#7c4dff; margin-top:8px; text-align:center;">&#x1F4CC; 上記は成功パターンの一例です。商品やジャンルによって最適な戦略は異なります。詳しくはセミナーでお伝えします。</p>
   </div>
 
   <div class="next-banner" style="position:absolute; bottom:40px; left:48px; right:48px;">
@@ -3447,7 +3604,7 @@
   </div>
 </div>
 
-<!-- SESSION 7: AFFILIATE PROGRAM & REGISTRATION (from Aandi reference) -->
+<!-- SESSION 7: AFFILIATE - 収益の5ステップ -->
 <div class="slide">
   <div class="top-bar green"></div>
   <div class="slide-header">
@@ -3459,94 +3616,40 @@
     <div class="left-accent green">
       <h2>TikTok Shop<span class="hl-green">アフィリエイト</span>で<br>収益を得る仕組み</h2>
     </div>
-    <p class="subtitle" style="margin-bottom:6px;">商品を紹介し、購入が発生すると報酬が得られる。フォロワー数に関わらず誰でも収益化のチャンスがある。</p>
+    <p class="subtitle" style="margin-bottom:16px;">商品を紹介し、購入が発生すると報酬が得られる。フォロワー数に関わらず誰でも収益化のチャンスがある。</p>
 
-    <div class="two-col" style="margin-top:4px;">
-      <div>
-        <div class="card shadow" style="border:none; background:linear-gradient(135deg, #1a1a2e, #2d2d44); color:#fff; padding:14px;">
-          <p style="font-size:14px; opacity:0.6; letter-spacing:2px; margin-bottom:2px;">REVENUE FLOW</p>
-          <h3 style="color:#fff; font-size:18px; margin-bottom:6px;">TikTok Shopで収益を得るまでの5ステップ</h3>
+    <p style="font-size:15px; color:#3366ff; letter-spacing:2px; margin-bottom:8px; font-weight:600;">REVENUE FLOW</p>
 
-          <div style="display:flex; gap:12px; margin-bottom:8px; align-items:center;">
-            <div style="background:#3366ff; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;">1</div>
-            <div>
-              <p style="font-weight:700;">アフィリエイト参加条件を確認</p>
-              <p style="font-size:14px; opacity:0.7;">18歳以上・フォロワー1,000人以上・個人アカウント</p>
-            </div>
-          </div>
-          <div style="display:flex; gap:12px; margin-bottom:8px; align-items:center;">
-            <div style="background:#7c4dff; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;">2</div>
-            <div>
-              <p style="font-weight:700;">TikTok内でクリエイター申請</p>
-              <p style="font-size:14px; opacity:0.7;">TikTok Studio → Shop for creator → 申し込み</p>
-            </div>
-          </div>
-          <div style="display:flex; gap:12px; margin-bottom:8px; align-items:center;">
-            <div style="background:#00c853; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;">3</div>
-            <div>
-              <p style="font-weight:700;">審査に通れば活動スタート</p>
-              <p style="font-size:14px; opacity:0.7;">本人確認書類をアップロード → 審査通過</p>
-            </div>
-          </div>
-          <div style="display:flex; gap:12px; margin-bottom:8px; align-items:center;">
-            <div style="background:#ff6d00; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;">4</div>
-            <div>
-              <p style="font-weight:700;">売りたい商品をリストから選ぶ</p>
-              <p style="font-size:14px; opacity:0.7;">カテゴリ別・おすすめ・イチオシ商品から選択</p>
-            </div>
-          </div>
-          <div style="display:flex; gap:12px; align-items:center;">
-            <div style="background:#ff1744; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;">5</div>
-            <div>
-              <p style="font-weight:700;">投稿コンテンツにリンク設定して投稿</p>
-              <p style="font-size:14px; opacity:0.7;">「+リンクを追加」→ 商品を選択 → 投稿</p>
-            </div>
-          </div>
-        </div>
+    <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; margin-bottom:20px;">
+      <div class="card anim-item" style="border-top:4px solid #3366ff; text-align:center; padding:16px 10px; animation-delay:0.1s;">
+        <div style="background:#3366ff; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; color:#fff; margin:0 auto 10px;">1</div>
+        <p style="font-weight:700; font-size:15px; color:#1a1a2e; margin-bottom:4px;">参加条件を確認</p>
+        <p style="font-size:12px; color:#666;">18歳以上<br>フォロワー1,000人以上<br>本人確認書類の提出</p>
       </div>
-      <div>
-        <div class="card shadow" style="border-top:4px solid #00c853; margin-bottom:6px;">
-          <h4 style="color:#00c853;">セラー（販売側）の登録方法</h4>
-          <div style="margin-top:8px;">
-            <div style="display:flex; gap:8px; margin-bottom:6px; font-size:14px;">
-              <span class="tag blue" style="font-size:15px; flex-shrink:0;">1</span>
-              <span>セラーセンターで出店申請・アカウント登録</span>
-            </div>
-            <div style="display:flex; gap:8px; margin-bottom:6px; font-size:14px;">
-              <span class="tag blue" style="font-size:15px; flex-shrink:0;">2</span>
-              <span>必要書類をアップロード、審査通過で活動開始</span>
-            </div>
-            <div style="display:flex; gap:8px; font-size:14px;">
-              <span class="tag blue" style="font-size:15px; flex-shrink:0;">3</span>
-              <span>商品情報・価格・在庫を管理画面で設定</span>
-            </div>
-          </div>
-        </div>
-        <div class="card shadow" style="border-top:4px solid #7c4dff; margin-bottom:6px;">
-          <h4 style="color:#7c4dff;">クリエイター側の登録方法</h4>
-          <div style="margin-top:8px;">
-            <div style="display:flex; gap:8px; margin-bottom:6px; font-size:14px;">
-              <span class="tag" style="background:#7c4dff; color:#fff; font-size:15px; flex-shrink:0;">1</span>
-              <span>アカウント右上の三本線をタップ</span>
-            </div>
-            <div style="display:flex; gap:8px; margin-bottom:6px; font-size:14px;">
-              <span class="tag" style="background:#7c4dff; color:#fff; font-size:15px; flex-shrink:0;">2</span>
-              <span>「TikTok Studio」をタップ</span>
-            </div>
-            <div style="display:flex; gap:8px; margin-bottom:6px; font-size:14px;">
-              <span class="tag" style="background:#7c4dff; color:#fff; font-size:15px; flex-shrink:0;">3</span>
-              <span>「Shop for creator」をタップ</span>
-            </div>
-            <div style="display:flex; gap:8px; font-size:14px;">
-              <span class="tag" style="background:#7c4dff; color:#fff; font-size:15px; flex-shrink:0;">4</span>
-              <span>条件を満たすか確認して申し込み</span>
-            </div>
-          </div>
-        </div>
-        <div style="background:#fff3e0; border-radius:12px; padding:10px 16px;">
-          <p style="font-size:14px;"><strong class="hl-orange">報酬率 5〜20%</strong> — 紹介経由で売れた商品に対して支払われるコミッション報酬。商品カテゴリにより変動。</p>
-        </div>
+      <div class="card anim-item" style="border-top:4px solid #7c4dff; text-align:center; padding:16px 10px; animation-delay:0.2s;">
+        <div style="background:#7c4dff; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; color:#fff; margin:0 auto 10px;">2</div>
+        <p style="font-weight:700; font-size:15px; color:#1a1a2e; margin-bottom:4px;">クリエイター申請</p>
+        <p style="font-size:12px; color:#666;">TikTok Studio<br>→ Shop for creator<br>→ 申し込み</p>
       </div>
+      <div class="card anim-item" style="border-top:4px solid #00c853; text-align:center; padding:16px 10px; animation-delay:0.3s;">
+        <div style="background:#00c853; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; color:#fff; margin:0 auto 10px;">3</div>
+        <p style="font-weight:700; font-size:15px; color:#1a1a2e; margin-bottom:4px;">審査通過で開始</p>
+        <p style="font-size:12px; color:#666;">本人確認書類<br>アップロード<br>→ 審査通過</p>
+      </div>
+      <div class="card anim-item" style="border-top:4px solid #ff6d00; text-align:center; padding:16px 10px; animation-delay:0.4s;">
+        <div style="background:#ff6d00; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; color:#fff; margin:0 auto 10px;">4</div>
+        <p style="font-weight:700; font-size:15px; color:#1a1a2e; margin-bottom:4px;">商品を選ぶ</p>
+        <p style="font-size:12px; color:#666;">カテゴリ別<br>おすすめ<br>イチオシ商品</p>
+      </div>
+      <div class="card anim-item" style="border-top:4px solid #ff1744; text-align:center; padding:16px 10px; animation-delay:0.5s;">
+        <div style="background:#ff1744; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; color:#fff; margin:0 auto 10px;">5</div>
+        <p style="font-weight:700; font-size:15px; color:#1a1a2e; margin-bottom:4px;">リンク付き投稿</p>
+        <p style="font-size:12px; color:#666;">「+リンクを追加」<br>→ 商品を選択<br>→ 投稿</p>
+      </div>
+    </div>
+
+    <div style="background:#fff3e0; border-radius:12px; padding:14px 20px; text-align:center;">
+      <p style="font-size:16px;"><strong class="hl-orange">報酬率 5〜20%</strong> — 紹介経由で売れた商品に対して支払われるコミッション報酬。商品カテゴリにより変動。</p>
     </div>
   </div>
   <div class="slide-footer">
@@ -3555,7 +3658,86 @@
   </div>
 </div>
 
-<!-- SESSION 7: WHY SCALE -->
+<!-- SESSION 7: HOW SELLERS & CREATORS CONNECT -->
+<div class="slide">
+  <div class="top-bar green"></div>
+  <div class="slide-header">
+    <span>TIKTOK SHOP STUDY SESSION | PART 7</span>
+    <span></span>
+  </div>
+  <div class="slide-content">
+    <div class="section-label green">MATCHING</div>
+    <div class="left-accent green">
+      <h2>セラーとクリエイターは<span class="hl-green">どうつながる</span>のか</h2>
+    </div>
+    <p class="subtitle" style="margin-bottom:16px;">TikTok Shopが両者をマッチングする3つの仕組み。</p>
+
+    <div class="two-col" style="margin-top:8px;">
+      <div>
+        <div class="card shadow anim-item" style="border-top:4px solid #00c853; padding:20px;">
+          <h3 style="color:#00c853; margin-bottom:16px; font-size:20px;">セラー（販売側）の動き方</h3>
+          <div style="display:flex; gap:14px; margin-bottom:16px; align-items:flex-start;">
+            <div style="background:#00c853; min-width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#fff; flex-shrink:0;">1</div>
+            <div>
+              <p style="font-weight:700; font-size:16px;">オープンプラン</p>
+              <p style="font-size:14px; color:#555;">コミッション率を設定 → 全クリエイターが自由に紹介可能。最も手軽な方法</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:14px; margin-bottom:16px; align-items:flex-start;">
+            <div style="background:#00c853; min-width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#fff; flex-shrink:0;">2</div>
+            <div>
+              <p style="font-weight:700; font-size:16px;">ターゲットプラン</p>
+              <p style="font-size:14px; color:#555;">実績あるクリエイターを指名招待。高コミッションで優先的に動画制作を依頼</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="background:#00c853; min-width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#fff; flex-shrink:0;">3</div>
+            <div>
+              <p style="font-weight:700; font-size:16px;">サンプル提供</p>
+              <p style="font-size:14px; color:#555;">無料サンプルを送付 → 実際に使ったレビュー動画で説得力UP</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card shadow anim-item" style="border-top:4px solid #7c4dff; padding:20px;">
+          <h3 style="color:#7c4dff; margin-bottom:16px; font-size:20px;">クリエイター側の商品の選び方</h3>
+          <div style="display:flex; gap:14px; margin-bottom:16px; align-items:flex-start;">
+            <div style="background:#7c4dff; min-width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#fff; flex-shrink:0;">1</div>
+            <div>
+              <p style="font-weight:700; font-size:16px;">マーケットプレイスで検索</p>
+              <p style="font-size:14px; color:#555;">Shop for creator内でカテゴリ・コミッション率・売上実績で絞り込み</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:14px; margin-bottom:16px; align-items:flex-start;">
+            <div style="background:#7c4dff; min-width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#fff; flex-shrink:0;">2</div>
+            <div>
+              <p style="font-weight:700; font-size:16px;">セラーからの招待を受ける</p>
+              <p style="font-size:14px; color:#555;">ターゲットプランで招待 → 通常より高いコミッション率で提携</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <div style="background:#7c4dff; min-width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#fff; flex-shrink:0;">3</div>
+            <div>
+              <p style="font-weight:700; font-size:16px;">サンプルで試してから紹介</p>
+              <p style="font-size:14px; color:#555;">無料サンプルを受け取り、実際に使ってリアルなレビュー動画を作成</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#e8f5e9; border-radius:12px; padding:14px 20px; text-align:center; margin-top:14px;">
+      <p style="font-size:16px; color:#1a1a2e;">TikTok Shopが<strong style="color:#00c853;">自動マッチング</strong>する仕組み — クリエイターは複数セラーと自由に提携可能。独占ではなく、コミッション率と商品力で選ばれる</p>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>2026.03.15 | TikTok Shop Strategy Meeting</span>
+    <span>Page 15.2</span>
+  </div>
+</div>
+
+<!-- SESSION 7: SCALE - 売れる商品の拡散力 -->
 <div class="slide">
   <div class="top-bar green"></div>
   <div class="slide-header">
@@ -3565,61 +3747,57 @@
   <div class="slide-content">
     <div class="section-label green">SCALE STRATEGY</div>
     <div class="left-accent green">
-      <h2>なぜ<span class="hl-green">「一人」では限界</span>なのか</h2>
+      <h2><span class="hl-green">「売れる商品」</span>を拡散する力</h2>
     </div>
-    <p class="subtitle">自分だけの運用には物理的な上限がある。「人の力」を借りてレバレッジをかける。</p>
+    <p class="subtitle">数を打てばいいわけではない。まずインプレッションの高い「売れる商品」を作ることが大前提。</p>
 
-    <div class="card-grid cols-3 mt-24">
-      <div class="card shadow" style="text-align:center; border-top:4px solid #3366ff;">
-        <div style="font-size:36px; margin-bottom:12px;">&#x1F464;</div>
-        <h4>自分だけの運用</h4>
-        <div style="margin:20px 0;">
-          <p style="font-size:14px; color:#777;">月間動画本数</p>
-          <p style="font-size:36px; font-weight:900;">20<span style="font-size:16px;">本</span></p>
+    <!-- 大前提 -->
+    <div style="background:linear-gradient(135deg, #fff8e1, #fff3e0); border-radius:12px; padding:14px 20px; margin-top:12px; margin-bottom:16px; border-left:4px solid #ff6d00;">
+      <p style="font-size:16px; font-weight:700; color:#e65100;">大前提：まず「利益が出る売れる商品」を見つけること</p>
+      <p style="font-size:14px; color:#555; margin-top:4px;">提携にはコストがかかる。利益の出ない商品を拡散しても赤字が拡大するだけ。</p>
+    </div>
+
+    <!-- 3カラム比較 -->
+    <p style="font-size:13px; color:#999; text-align:center; margin-bottom:8px;">同じ「売れる商品」の拡散力の違い</p>
+    <div class="card-grid cols-3">
+      <div class="card shadow anim-item" style="text-align:center; border-top:4px solid #3366ff; animation-delay:0.1s;">
+        <div style="font-size:32px; margin-bottom:8px;">&#x1F464;</div>
+        <h4>自分だけで拡散</h4>
+        <div style="margin:14px 0;">
+          <p style="font-size:13px; color:#777;">月間動画本数</p>
+          <p style="font-size:34px; font-weight:900;">100<span style="font-size:14px;">本</span></p>
         </div>
-        <div style="margin:20px 0;">
-          <p style="font-size:14px; color:#777;">リーチ可能人数</p>
-          <p style="font-size:36px; font-weight:900;">5,000<span style="font-size:16px;">人</span></p>
-        </div>
-        <div style="background:#f0f4ff; padding:12px; border-radius:8px;">
-          <p style="font-size:15px; color:#3366ff;">成長は緩やか</p>
+        <div style="background:#f0f4ff; padding:10px; border-radius:8px;">
+          <p style="font-size:14px; color:#3366ff;">制作費+労力がかかり限界あり</p>
         </div>
       </div>
-      <div class="card shadow" style="text-align:center; border-top:4px solid #00c853;">
-        <div style="font-size:36px; margin-bottom:12px;">&#x1F465;</div>
+      <div class="card shadow anim-item" style="text-align:center; border-top:4px solid #00c853; animation-delay:0.2s;">
+        <div style="font-size:32px; margin-bottom:8px;">&#x1F465;</div>
         <h4>+クリエイター提携</h4>
-        <div style="margin:20px 0;">
-          <p style="font-size:14px; color:#777;">月間動画本数</p>
-          <p style="font-size:36px; font-weight:900; color:#00c853;">100<span style="font-size:16px;">本+</span></p>
+        <div style="margin:14px 0;">
+          <p style="font-size:13px; color:#777;">月間動画本数</p>
+          <p style="font-size:34px; font-weight:900; color:#00c853;">300<span style="font-size:14px;">本+</span></p>
         </div>
-        <div style="margin:20px 0;">
-          <p style="font-size:14px; color:#777;">リーチ可能人数</p>
-          <p style="font-size:36px; font-weight:900; color:#00c853;">50,000<span style="font-size:16px;">人+</span></p>
-        </div>
-        <div style="background:#e8f5e9; padding:12px; border-radius:8px;">
-          <p style="font-size:15px; color:#00c853;">成長が加速</p>
+        <div style="background:#e8f5e9; padding:10px; border-radius:8px;">
+          <p style="font-size:14px; color:#00c853;">成果報酬型でリスク低</p>
         </div>
       </div>
-      <div class="card shadow" style="text-align:center; border-top:4px solid #ff6d00;">
-        <div style="font-size:36px; margin-bottom:12px;">&#x1F46B;&#x1F46B;</div>
+      <div class="card shadow anim-item" style="text-align:center; border-top:4px solid #ff6d00; animation-delay:0.3s;">
+        <div style="font-size:32px; margin-bottom:8px;">&#x1F46B;&#x1F46B;</div>
         <h4>+インフルエンサー</h4>
-        <div style="margin:20px 0;">
-          <p style="font-size:14px; color:#777;">月間動画本数</p>
-          <p style="font-size:36px; font-weight:900; color:#ff6d00;">500<span style="font-size:16px;">本+</span></p>
+        <div style="margin:14px 0;">
+          <p style="font-size:13px; color:#777;">月間動画本数</p>
+          <p style="font-size:34px; font-weight:900; color:#ff6d00;">500<span style="font-size:14px;">本+</span></p>
         </div>
-        <div style="margin:20px 0;">
-          <p style="font-size:14px; color:#777;">リーチ可能人数</p>
-          <p style="font-size:36px; font-weight:900; color:#ff6d00;">500,000<span style="font-size:16px;">人+</span></p>
-        </div>
-        <div style="background:#fff3e0; padding:12px; border-radius:8px;">
-          <p style="font-size:15px; color:#ff6d00;">爆発的成長</p>
+        <div style="background:#fff3e0; padding:10px; border-radius:8px;">
+          <p style="font-size:14px; color:#ff6d00;">高リーチだがコストも発生</p>
         </div>
       </div>
     </div>
 
-    <div class="info-box green mt-24">
+    <div class="info-box green" style="margin-top:14px;">
       <span class="info-icon">&#x1F4A1;</span>
-      <p><strong class="hl-green">ただし、提携のタイミングが重要です。</strong>「売れる商品がわかった状態」で提携するのと、「何が売れるかわからない状態」で提携するのでは、結果が全く違います。<strong>まずデータを持ってから</strong>提携しましょう。</p>
+      <p><strong class="hl-green">提携は「売れる商品の拡散手段」</strong>であって、売れない商品を売る魔法ではない。利益が出る商品を持ってから、拡散にレバレッジをかける。これが正しい順番です。</p>
     </div>
   </div>
   <div class="slide-footer">
@@ -3718,74 +3896,75 @@
 
     <div class="two-col mt-24">
       <div>
-        <div class="card shadow" style="border:none; background:linear-gradient(135deg, #1a1a2e, #2d2d44); color:#fff;">
-          <p style="font-size:15px; opacity:0.6; letter-spacing:2px; margin-bottom:16px;">FIRST MOVER ADVANTAGE</p>
-          <h3 style="color:#fff; font-size:24px;">先行者の3つの武器</h3>
+        <div class="card shadow" style="border-top:4px solid #ff6d00;">
+          <p style="font-size:13px; color:#ff6d00; letter-spacing:2px; margin-bottom:8px; font-weight:600;">FIRST MOVER ADVANTAGE</p>
+          <h3 style="color:#1a1a2e; font-size:20px; margin-bottom:12px;">先行者の3つの武器</h3>
 
-          <div style="margin-top:24px;">
-            <div style="display:flex; gap:16px; margin-bottom:20px;">
-              <div style="background:#3366ff; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#x1F4CA;</div>
-              <div>
-                <p style="font-weight:700;">データの蓄積</p>
-                <p style="font-size:15px; opacity:0.7;">先にデータを貯めた者が、AIの学習で圧倒的に有利。後から参入しても同じデータは手に入らない。</p>
-              </div>
+          <div style="display:flex; gap:12px; margin-bottom:12px; align-items:flex-start;">
+            <div style="background:#3366ff; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#x1F4CA;</div>
+            <div>
+              <p style="font-weight:700; font-size:15px;">データの蓄積</p>
+              <p style="font-size:13px; color:#666;">先にデータを貯めた者がAI学習で圧倒的に有利</p>
             </div>
-            <div style="display:flex; gap:16px; margin-bottom:20px;">
-              <div style="background:#00c853; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#x1F91D;</div>
-              <div>
-                <p style="font-weight:700;">クリエイター関係</p>
-                <p style="font-size:15px; opacity:0.7;">先に良いクリエイターと関係を築いた者が独占。後発は残りから選ぶことに。</p>
-              </div>
+          </div>
+          <div style="display:flex; gap:12px; margin-bottom:12px; align-items:flex-start;">
+            <div style="background:#00c853; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#x1F91D;</div>
+            <div>
+              <p style="font-weight:700; font-size:15px;">クリエイター関係</p>
+              <p style="font-size:13px; color:#666;">先に信頼関係を築けば優先的に紹介してもらえる</p>
             </div>
-            <div style="display:flex; gap:16px;">
-              <div style="background:#ff6d00; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#x1F3C6;</div>
-              <div>
-                <p style="font-weight:700;">ブランド認知</p>
-                <p style="font-size:15px; opacity:0.7;">数千アカウントを先に構築すれば、後発が真似できないブランド価値になる。</p>
-              </div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start;">
+            <div style="background:#ff6d00; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">&#x1F3C6;</div>
+            <div>
+              <p style="font-weight:700; font-size:15px;">ブランド認知</p>
+              <p style="font-size:13px; color:#666;">先に構築したブランドは後発が真似できない</p>
             </div>
           </div>
         </div>
       </div>
       <div>
-        <div class="card shadow" style="border-left:4px solid #ff6d00;">
-          <h4>&#x23F1; 今やるべきアクション</h4>
-          <div style="margin-top:16px;">
-            <div style="display:flex; gap:12px; margin-bottom:16px;">
-              <span class="tag orange">即</span>
+        <div class="card shadow" style="border-left:4px solid #ff6d00; padding:14px;">
+          <h4 style="margin-bottom:10px;">&#x23F1; 今やるべきアクション<span style="font-size:12px; font-weight:400; color:#999;">（一例）</span></h4>
+          <div>
+            <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+              <span class="tag orange" style="font-size:13px;">即</span>
               <div>
-                <p style="font-weight:600;">リサーチ→出品を開始</p>
-                <p style="font-size:15px; color:#555;">今すぐ100商品をテスト出品</p>
+                <p style="font-weight:600; font-size:14px;">リサーチ→出品を開始</p>
+                <p style="font-size:13px; color:#555;">今すぐ100商品をテスト出品</p>
               </div>
             </div>
-            <div style="display:flex; gap:12px; margin-bottom:16px;">
-              <span class="tag blue">1〜3ヶ月</span>
+            <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+              <span class="tag blue" style="font-size:13px;">1〜3ヶ月</span>
               <div>
-                <p style="font-weight:600;">売れた商品の動画を作成</p>
-                <p style="font-size:15px; color:#555;">AIで低コスト量産</p>
+                <p style="font-weight:600; font-size:14px;">動画作成+有在庫化</p>
+                <p style="font-size:13px; color:#555;">売れた商品をAIで動画量産＆在庫切り替え</p>
               </div>
             </div>
-            <div style="display:flex; gap:12px; margin-bottom:16px;">
-              <span class="tag green">時期を見極め</span>
+            <div style="display:flex; gap:10px; margin-bottom:10px; align-items:center;">
+              <span class="tag green" style="font-size:13px;">3〜6ヶ月</span>
               <div>
-                <p style="font-weight:600;">クリエイター提携を検討</p>
-                <p style="font-size:15px; color:#555;">データを持ってから提携判断</p>
+                <p style="font-weight:600; font-size:14px;">クリエイター提携を検討</p>
+                <p style="font-size:13px; color:#555;">売上データを持ってから提携判断</p>
               </div>
             </div>
-            <div style="display:flex; gap:12px;">
-              <span class="tag red">6ヶ月</span>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <span class="tag red" style="font-size:13px;">6ヶ月〜</span>
               <div>
-                <p style="font-weight:600;">有在庫化・多アカウント展開</p>
-                <p style="font-size:15px; color:#555;">利益の最大化フェーズ</p>
+                <p style="font-weight:600; font-size:14px;">有在庫拡大・多アカウント展開</p>
+                <p style="font-size:13px; color:#555;">利益の最大化フェーズ</p>
               </div>
             </div>
+          </div>
+          <div style="background:#fff8e1; border-radius:8px; padding:6px 10px; margin-top:10px;">
+            <p style="font-size:11px; color:#e65100;">※ 現時点での成功パターンの一例。市場は3ヶ月で変わり得るため、常に最新の勝ちパターンを模索し続けることが重要。</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="next-banner" style="position:absolute; bottom:40px; left:48px; right:48px;">
+  <div class="next-banner" style="position:absolute; bottom:8px; left:48px; right:48px;">
     <div class="next-label"><span>NEXT</span><small>次回予告</small></div>
     <div class="next-body">
       <p style="font-size:15px; letter-spacing:2px; opacity:0.6;">SESSION 08</p>
@@ -4222,6 +4401,7 @@
   <button id="btnLaser" title="レーザーポインター (L) 赤">&#x1F534;</button>
   <button id="btnLaserG" title="レーザーポインター (G) 緑">&#x1F7E2;</button>
   <button id="btnSpot" title="スポットライト (S)">&#x1F4A1;</button>
+  <button id="btnFullscreen" title="フルスクリーン (F)" style="margin-left:8px;">&#x26F6;</button>
 </div>
 
 <!-- Laser pointer -->
@@ -4367,13 +4547,19 @@
 
   // Fit slides to viewport
   function fitSlides() {
+    const fs = isFullscreen();
     const vw = window.innerWidth;
-    const vh = window.innerHeight - 44; /* account for session jump bar */
-    const scale = Math.min(vw / 1340, vh / 750) * 0.9;
+    const vh = fs ? window.innerHeight : (window.innerHeight - 44);
+    const scaleX = vw / 1340;
+    const scaleY = vh / 750;
+    const scale = fs ? Math.min(scaleX, scaleY) : Math.min(scaleX, scaleY) * 0.9;
     document.documentElement.style.setProperty('--slide-scale', scale);
   }
   fitSlides();
   window.addEventListener('resize', fitSlides);
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
+    document.addEventListener(evt, () => { setTimeout(fitSlides, 100); });
+  });
 
   // Laser Pointer
   document.addEventListener('mousemove', e => {
@@ -4436,6 +4622,10 @@
       toggleLaser('green');
     } else if (e.key === 's' || e.key === 'S') {
       toggleSpotlight();
+    } else if (e.key === 'f' || e.key === 'F') {
+      togglePresentMode();
+    } else if (e.key === 'Escape') {
+      exitPresentMode();
     } else if (e.key >= '1' && e.key <= '8') {
       // Number keys jump to sessions
       const s = e.key;
@@ -4452,6 +4642,50 @@
   document.getElementById('btnLaser').addEventListener('click', () => toggleLaser('red'));
   document.getElementById('btnLaserG').addEventListener('click', () => toggleLaser('green'));
   document.getElementById('btnSpot').addEventListener('click', toggleSpotlight);
+  var presentMode = false;
+
+  function enterPresentMode() {
+    presentMode = true;
+    document.body.classList.add('present-mode');
+    document.getElementById('btnFullscreen').style.background = 'rgba(100,150,255,0.4)';
+    var el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    fitSlides();
+  }
+
+  function exitPresentMode() {
+    presentMode = false;
+    document.body.classList.remove('present-mode');
+    document.getElementById('btnFullscreen').style.background = '';
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+    fitSlides();
+  }
+
+  function togglePresentMode() {
+    if (presentMode) exitPresentMode();
+    else enterPresentMode();
+  }
+
+  function isFullscreen() {
+    return presentMode;
+  }
+
+  document.getElementById('btnFullscreen').addEventListener('click', togglePresentMode);
+
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(evt => {
+    document.addEventListener(evt, () => {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        presentMode = false;
+        document.body.classList.remove('present-mode');
+        document.getElementById('btnFullscreen').style.background = '';
+        fitSlides();
+      }
+    });
+  });
 
   // Initialize
   showNav();
